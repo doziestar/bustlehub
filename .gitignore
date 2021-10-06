@@ -21,18 +21,15 @@ parts/
 sdist/
 var/
 wheels/
-<<<<<<< HEAD
 pip-wheel-metadata/
 share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
 MANIFEST
-=======
 *.egg-info/
 .installed.cfg
 *.egg
->>>>>>> 🎉 start bustle api
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -47,30 +44,23 @@ pip-delete-this-directory.txt
 # Unit test / coverage reports
 htmlcov/
 .tox/
-<<<<<<< HEAD
 .nox/
-=======
->>>>>>> 🎉 start bustle api
 .coverage
 .coverage.*
 .cache
 nosetests.xml
 coverage.xml
 *.cover
-<<<<<<< HEAD
 *.py,cover
 .hypothesis/
 .pytest_cache/
-=======
 .hypothesis/
->>>>>>> 🎉 start bustle api
 
 # Translations
 *.mo
 *.pot
 
 # Django stuff:
-<<<<<<< HEAD
 *.log
 local_settings.py
 db.sqlite3
@@ -82,9 +72,7 @@ instance/
 
 # Scrapy stuff:
 .scrapy
-=======
 staticfiles/
->>>>>>> 🎉 start bustle api
 
 # Sphinx documentation
 docs/_build/
@@ -92,7 +80,6 @@ docs/_build/
 # PyBuilder
 target/
 
-<<<<<<< HEAD
 # Jupyter Notebook
 .ipynb_checkpoints
 
@@ -132,7 +119,6 @@ venv.bak/
 # Spyder project settings
 .spyderproject
 .spyproject
-=======
 # pyenv
 .python-version
 
@@ -143,7 +129,6 @@ celerybeat-schedule
 .venv
 venv/
 ENV/
->>>>>>> 🎉 start bustle api
 
 # Rope project settings
 .ropeproject
@@ -153,13 +138,11 @@ ENV/
 
 # mypy
 .mypy_cache/
-<<<<<<< HEAD
 .dmypy.json
 dmypy.json
 
 # Pyre type checker
 .pyre/
-=======
 
 
 ### Node template
@@ -362,4 +345,3 @@ bustlehub/media/
 .env
 .envs/*
 !.envs/.local/
->>>>>>> 🎉 start bustle api
