@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views import generic
 
-from .models import Blog, Event
+from bustlehub.core.models import Blog, Event
 
 class BlogDetailView(generic.DetailView):
     template_name = "core/blog_detail.html"

@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import BlogDetailView, BlogListView, EventDetailView, EventListView
+from bustlehub.core.views import BlogDetailView, BlogListView, EventDetailView, EventListView
 
 app_name = "core"
 urlpatterns = [
