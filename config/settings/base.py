@@ -83,6 +83,8 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     "bustlehub.users.apps.UsersConfig",
+    "bustlehub.api.apps.ApiConfig",
+    "bustlehub.core.apps.CoreConfig",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
