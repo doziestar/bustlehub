@@ -1,1 +1,14 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block content %}
+<div class="row">
+  <div class="col-4">
+    <button class="btn btn-primary" id="play">about</button>
+  </div>
+  <div class="col-4">
+    <button class="btn btn-success" id="stop">blog</button>
+  </div>
+  <div class="col-4">
+    <button class="btn btn-warning" id="start">profile</button>
+  </div>
+</div>
+<div id="text"></div>
+{% endblock %}
