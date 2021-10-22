@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 
 from bustlehub.users.forms import UserChangeForm, UserCreationForm
+from bustlehub.users.models import Profile
 
 User = get_user_model()
 
@@ -32,3 +33,6 @@ class UserAdmin(auth_admin.UserAdmin):
     )
     list_display = ["username", "name", "is_superuser"]
     search_fields = ["name"]
+
+
+admin.site.register(Profile)
