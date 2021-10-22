@@ -1,3 +1,5 @@
 {
-    "python.linting.pylintEnabled": true
+  "python.linting.pylintEnabled": true,
+  "editor.codeActionsOnSave": null,
+  "jshint.options": { "esversion": 6 }
 }

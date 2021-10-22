@@ -49,3 +49,27 @@ function loadText3() {
   };
   xhr.send();
 }
+
+const text = document.getElementById("test");
+$.ajax({
+  type: "GET",
+  url: "/core/text/",
+  success: function (response) {
+    console.log(`success: ${response.text}`);
+    text.textContent = response.text;
+  },
+  error: function (error) {
+    console.log(`error: ${error}`);
+  },
+});
+$.ajax({
+  type: "GET",
+  url: "/core/load-blog/",
+  success: function (response) {
+    console.log(`success: ${response}`);
+    // text.textContent = response.text;
+  },
+  error: function (error) {
+    console.log(`error: ${error}`);
+  },
+});
