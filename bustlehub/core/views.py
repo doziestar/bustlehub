@@ -1,7 +1,8 @@
 # from django.shortcuts import render
-from django.core import serializers
+# from django.core import serializers
 from django.http import JsonResponse
 from django.views import generic
+from django.views.decorators.csrf import csrf_exempt
 
 from bustlehub.core.models import Blog, Event
 
@@ -34,7 +35,42 @@ def test_ajax(request):
     return JsonResponse({"text": "I am Dozie"})
 
 
-def load_post_data_view(request):
+def load_post_data_view(request, num_posts):
     qs = Blog.objects.all()
-    data = serializers.serialize("json", qs)
-    return JsonResponse({"data": data})
+    visible = 3
+    size = qs.count()
+    upper = num_posts
+    lower = upper - visible
+    data = []
+    for objects in qs:
+        item = {
+            "id": objects.id,
+            "title": objects.title,
+            "slug": objects.slug,
+            "liked": True if request.user in objects.liked.all() else False,
+            "like_count": objects.like_count,
+            "excerpt": objects.excerpt,
+            "detail": objects.detail,
+            "view_count": objects.view_count,
+        }
+        data.append(item)
+    return JsonResponse({"data": data[lower:upper], "size": size})
+
+
+@csrf_exempt
+def like_and_unlike_post(request):
+    if request.is_ajax():
+        pk = request.POST.get("pk")
+        obj = Blog.objects.get(pk=pk)
+        if request.user in obj.liked.all():
+            liked = False
+            obj.liked.remove(request.user)
+        else:
+            liked = True
+            obj.liked.add(request.user)
+    return JsonResponse(
+        {
+            "liked": liked,
+            "like_count": obj.like_count,
+        }
+    )

@@ -1,4 +1,4 @@
-# from django.conf import settings
+from django.conf import settings
 from django.db import models
 
 
@@ -44,9 +44,14 @@ class Blog(TimeStamp, General):
 
     detail = models.TextField(blank=True)
     view_count = models.IntegerField(default=0)
+    liked = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True)
 
     def __str__(self):
         return self.title
+
+    @property
+    def like_count(self):
+        return self.liked.all().count()
 
     class Meta:
         verbose_name_plural = "Blog"

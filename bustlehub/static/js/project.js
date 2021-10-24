@@ -51,25 +51,120 @@ function loadText3() {
 }
 
 const text = document.getElementById("test");
-$.ajax({
-  type: "GET",
-  url: "/core/text/",
-  success: function (response) {
-    console.log(`success: ${response.text}`);
-    text.textContent = response.text;
-  },
-  error: function (error) {
-    console.log(`error: ${error}`);
-  },
+// $.ajax({
+//   type: "GET",
+//   url: "/core/text/",
+//   success: function (response) {
+//     console.log(`success: ${response.text}`);
+//     text.textContent = response.text;
+//   },
+//   error: function (error) {
+//     console.log(`error: ${error}`);
+//   },
+// });
+const loadBtn = document.getElementById("load-more");
+const spinner = document.getElementById("spinner");
+const endBox = document.getElementById("end-box");
+const getCookie = (name) => {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== "") {
+    const cookies = document.cookie.split(";");
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      // Does this cookie string begin with the name we want?
+      if (cookie.substring(0, name.length + 1) === name + "=") {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+};
+const csrftoken = getCookie("csrftoken");
+
+const likeAndUnlikePost = () => {
+  const likeAndUnlikeForm = [...document.getElementsByClassName("like-unlike")];
+  console.log(likeAndUnlikeForm);
+  likeAndUnlikeForm.forEach((form) =>
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const clickedId = e.target.getAttribute("data-form-id");
+      const clickedBtn = document.getElementById(`like-unlike-${clickedId}`);
+      $.ajax({
+        type: "POST",
+        url: "core/like-unlike/",
+        data: {
+          csrfmiddlewaretoken: csrftoken,
+          pk: clickedId,
+        },
+        success: function (response) {
+          console.log(response);
+          clickedBtn.textContent = response.liked
+            ? `Unlike (${response.like_count})`
+            : `Like (${response.like_count})`;
+        },
+        error: function (error) {
+          console.log(error);
+        },
+      });
+    })
+  );
+};
+let visible = 3;
+const getDate = () => {
+  $.ajax({
+    type: "GET",
+    url: `/core/load-blog/${visible}`,
+    success: function (response) {
+      console.log(`success: ${response.data}`);
+      const data = response.data;
+      console.log(data);
+      setTimeout(() => {
+        spinner.classList.add("not-visible");
+        data.forEach((el) => {
+          text.innerHTML += `
+      <div class="card mb-2 col-4" style="width: 18rem;">
+          <div class="card-body">
+            <h5 class="card-title">${el.title}</h5>
+            <p class="card-text">${el.excerpt}</p>
+          </div>
+          <div class="card-footer">
+          <div class="row">
+            <div class="co-2">
+            <a href="#" class="btn btn-primary">Detail</a>
+            </div>
+            <div class="col-2">
+            <form class="like-unlike" data-form-id="${el.id}">
+            <button href="#" class="btn btn-primary" id="like-unlike-${
+              el.id
+            }">${
+            el.liked ? `Unlike (${el.like_count})` : `Like (${el.like_count})`
+          }</button>
+            </form>
+            </div>
+          </div>
+          </div>
+      </div>
+
+        `;
+        });
+        likeAndUnlikePost();
+      }, 100);
+      // console.log(response.size);
+      if (response.size === 0) {
+        endBox.textContent = "No Post Yet";
+      } else if (response.size < visible) {
+        endBox.textContent = "No More Post To Load.....";
+      }
+    },
+    error: function (error) {
+      console.log(`error: ${error}`);
+    },
+  });
+};
+loadBtn.addEventListener("click", () => {
+  spinner.classList.remove("not-visible");
+  visible += 3;
+  getDate();
 });
-$.ajax({
-  type: "GET",
-  url: "/core/load-blog/",
-  success: function (response) {
-    console.log(`success: ${response}`);
-    // text.textContent = response.text;
-  },
-  error: function (error) {
-    console.log(`error: ${error}`);
-  },
-});
+getDate();
