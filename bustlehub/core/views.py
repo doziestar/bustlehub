@@ -1,10 +1,12 @@
-# from django.shortcuts import render
 # from django.core import serializers
 from django.http import JsonResponse
+from django.shortcuts import render
 from django.views import generic
-from django.views.decorators.csrf import csrf_exempt
 
+from bustlehub.core.forms import CreatePostForm
 from bustlehub.core.models import Blog, Event
+
+# from django.views.decorators.csrf import csrf_exempt
 
 
 class BlogDetailView(generic.DetailView):
@@ -57,7 +59,7 @@ def load_post_data_view(request, num_posts):
     return JsonResponse({"data": data[lower:upper], "size": size})
 
 
-@csrf_exempt
+# @csrf_exempt
 def like_and_unlike_post(request):
     if request.is_ajax():
         pk = request.POST.get("pk")
@@ -74,3 +76,16 @@ def like_and_unlike_post(request):
             "like_count": obj.like_count,
         }
     )
+
+
+def create_new_post(request):
+    form = CreatePostForm
+    # qs = Blog.objects.all()
+
+    if request.is_ajax() and form.is_valid():
+        instance = form.save(commit=False)
+        instance.save()
+    context = {
+        "form": form,
+    }
+    return render(request, "pages/home.html", context)

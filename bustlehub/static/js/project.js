@@ -65,6 +65,7 @@ const text = document.getElementById("test");
 const loadBtn = document.getElementById("load-more");
 const spinner = document.getElementById("spinner");
 const endBox = document.getElementById("end-box");
+const csrf = document.getElementsByName("csrfmiddlewaretoken");
 const getCookie = (name) => {
   let cookieValue = null;
   if (document.cookie && document.cookie !== "") {
@@ -94,7 +95,7 @@ const likeAndUnlikePost = () => {
         type: "POST",
         url: "core/like-unlike/",
         data: {
-          csrfmiddlewaretoken: csrftoken,
+          csrfmiddlewaretoken: csrf[0].value,
           pk: clickedId,
         },
         success: function (response) {
@@ -130,10 +131,10 @@ const getDate = () => {
           </div>
           <div class="card-footer">
           <div class="row">
-            <div class="co-2">
-            <a href="#" class="btn btn-primary">Detail</a>
-            </div>
-            <div class="col-2">
+              <div class="d-grid gap-2 d-md-block">
+            <a href="#" class="btn btn-primary me-md-2">Detail</a>
+            <hr>
+
             <form class="like-unlike" data-form-id="${el.id}">
             <button href="#" class="btn btn-primary" id="like-unlike-${
               el.id
@@ -141,9 +142,8 @@ const getDate = () => {
             el.liked ? `Unlike (${el.like_count})` : `Like (${el.like_count})`
           }</button>
             </form>
+              </div>
             </div>
-          </div>
-          </div>
       </div>
 
         `;
@@ -168,3 +168,31 @@ loadBtn.addEventListener("click", () => {
   getDate();
 });
 getDate();
+
+const title = document.getElementById("id_title");
+const slug = document.getElementById("id_slug");
+const excerpt = document.getElementById("id_excerpt");
+const detail = document.getElementById("id_detail");
+const postForm = document.getElementById("create-post");
+
+postForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  $.ajax({
+    type: "POST",
+    url: "",
+    data: {
+      csrfmiddlewaretoken: csrf[0].value,
+      title: title.value,
+      slug: slug.value,
+      excerpt: excerpt.value,
+      detail: detail.value,
+    },
+    success: function (response) {
+      console.log(response);
+    },
+    error: function (error) {
+      console.log(error);
+    },
+  });
+});
+console.log("csrf", csrf[0].value);

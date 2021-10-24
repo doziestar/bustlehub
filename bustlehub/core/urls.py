@@ -5,6 +5,7 @@ from bustlehub.core.views import (
     BlogListView,
     EventDetailView,
     EventListView,
+    create_new_post,
     like_and_unlike_post,
     load_post_data_view,
     test_ajax,
@@ -19,4 +20,5 @@ urlpatterns = [
     path("text/", test_ajax, name="text"),
     path("load-blog/<int:num_posts>", load_post_data_view, name="load-blog"),
     path("like-unlike/", like_and_unlike_post, name="like-unlike"),
+    path("create-post/", create_new_post, name="create-post"),
 ]
