@@ -31,9 +31,14 @@ class Event(TimeStamp, General):
     view_count = models.IntegerField(default=0)
     venue = models.TextField(blank=True)
     positive_feed_back = models.IntegerField(default=0)
+    like = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True)
 
     def __str__(self):
         return self.title
+
+    @property
+    def like_count(self):
+        return self.like.all().count()
 
     class Meta:
         verbose_name_plural = "Event"

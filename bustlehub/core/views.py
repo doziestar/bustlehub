@@ -89,3 +89,30 @@ def create_new_post(request):
         "form": form,
     }
     return render(request, "pages/home.html", context)
+
+
+def load_event(request, num_event):
+    qs = Event.objects.all()
+    visible = 2
+    size = qs.count()
+    upper = num_event
+    lower = upper - visible
+    data = []
+    for obj in qs:
+        item = {
+            "id": obj.id,
+            "title": obj.title,
+            "slug": obj.slug,
+            "liked": True if request.user in obj.like.all() else False,
+            "like_count": obj.like_count,
+            "excerpt": obj.excerpt,
+            "detail": obj.detail,
+            "view_count": obj.view_count,
+        }
+        data.append(item)
+    context = {"data": data[lower:upper], "size": size}
+    return JsonResponse(context)
+
+
+def load_event_temp(request):
+    return render(request, "core/event_list.html", {})
