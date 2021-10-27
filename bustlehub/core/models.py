@@ -1,6 +1,15 @@
 from django.conf import settings
 from django.db import models
 
+"""
+! Core app functionality
+1. Front end rendering
+2. All none protective pages
+3. contact us form
+4. newsletter --> 3rd party newsletter app
+
+"""
+
 
 class TimeStamp(models.Model):
     """timestamp for all projects"""

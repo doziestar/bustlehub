@@ -14,6 +14,7 @@ function loadText() {
           <li>title: ${blog[post].title}</li>
           <li>author: ${blog[post].author}</li>
           <li>slug: ${blog[post].slug}</li>
+
           <li>detail: ${blog[post].detail}</li>
           </ul>`;
       }
