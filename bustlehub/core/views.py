@@ -16,6 +16,20 @@ class BlogDetailView(generic.DetailView):
     context_object_name = "blog"
 
 
+def blog_detail(request, slug):
+    objects = Blog.objects.filter(slug=slug)
+    data = {
+        "id": objects.id,
+        "title": objects.title,
+        "slug": objects.slug,
+        "like_count": objects.like_count,
+        "excerpt": objects.excerpt,
+        "detail": objects.detail,
+        "view_count": objects.view_count,
+    }
+    return JsonResponse({"data": data})
+
+
 class BlogListView(generic.ListView):
     template_name = "core/blog_list.html"
     model = Blog

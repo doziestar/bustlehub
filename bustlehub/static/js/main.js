@@ -2,6 +2,7 @@ const event = document.getElementById("event");
 const endBox = document.getElementById("end-box");
 const loadBtn = document.getElementById("load-more");
 const csrf = document.getElementsByName("csrfmiddlewaretoken");
+const url = window.location.href;
 
 // liking content and sending to server using ajax
 // !csrf token for django {% crsf_token %} syntax and security
@@ -72,7 +73,9 @@ const getBlog = () => {
           <div class="card-footer">
           <div class="row">
               <div class="col">
-            <a href="#" class="btn btn-primary me-md-2">Detail</a>
+            <a href="${url}${
+            item.slug
+          }" class="btn btn-primary me-md-2">Detail</a>
             </div>
               <div class="col">
             <form class="like-unlike" data-form-id="${item.id}">
@@ -170,10 +173,13 @@ postForm.addEventListener("submit", (e) => {
       </div>
        `
       );
-      $("exampleModalLabel").modal("hide");
+      handleAlert("success", "New Post Added");
+      $("#exampleModal").modal("hide"); //hide form if we got a true to return
+      postForm.reset();
     },
     error: (error) => {
       console.log(error);
+      handleAlert("danger", "Post Error, check what is wrong");
     },
   });
 });

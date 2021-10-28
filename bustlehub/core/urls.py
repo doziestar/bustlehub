@@ -5,6 +5,7 @@ from bustlehub.core.views import (
     BlogListView,
     EventDetailView,
     EventListView,
+    blog_detail,
     create_new_post,
     like_and_unlike_post,
     load_event,
@@ -16,7 +17,8 @@ from bustlehub.core.views import (
 app_name = "core"
 urlpatterns = [
     path("blog/", BlogListView.as_view(), name="blog"),
-    path("blog/<slug:slug>/", BlogDetailView.as_view(), name="blog-detail"),
+    path("<slug:slug>/", BlogDetailView.as_view(), name="blog-detail"),
+    path("<slug:slug>/data/", blog_detail, name="blog-detail-data"),
     path("event/", EventListView.as_view(), name="event"),
     path("event/<slug:slug>/", EventDetailView.as_view(), name="event-detail"),
     path("text/", test_ajax, name="text"),
