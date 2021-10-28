@@ -28,7 +28,7 @@
 <div id="text"></div>
 <br />
 <hr />
-<div class="row" id="test"></div>
+<div class="row" id="alert-box"></div>
 <div id="event"></div>
 <div class="text-center mb-3" id="end-box">
   <button class="btn btn-primary" id="load-more">load more</button>
@@ -52,7 +52,7 @@
         ></button>
       </div>
       <div class="modal-body">
-        <form method="POST" class="create-post">
+        <form method="POST" id="create-post">
           {% csrf_token %} {{ form|crispy }}
           <div class="modal-footer">
             <button

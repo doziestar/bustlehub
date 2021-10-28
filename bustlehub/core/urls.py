@@ -24,5 +24,5 @@ urlpatterns = [
     path("load-event/<int:num_event>", load_event, name="load-event"),
     path("load-event/", load_event_temp, name="load-event-temp"),
     path("like-unlike/", like_and_unlike_post, name="like-unlike"),
-    path("create-post/", create_new_post, name="create-post"),
+    path("", create_new_post, name="create-post"),
 ]

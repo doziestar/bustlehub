@@ -1,4 +1,5 @@
 # from django.core import serializers
+# from django.core import serializers
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views import generic
@@ -38,24 +39,26 @@ def test_ajax(request):
 
 
 def load_post_data_view(request, num_posts):
-    qs = Blog.objects.all()
-    visible = 3
-    size = qs.count()
-    upper = num_posts
-    lower = upper - visible
-    data = []
-    for objects in qs:
-        item = {
-            "id": objects.id,
-            "title": objects.title,
-            "slug": objects.slug,
-            "liked": True if request.user in objects.liked.all() else False,
-            "like_count": objects.like_count,
-            "excerpt": objects.excerpt,
-            "detail": objects.detail,
-            "view_count": objects.view_count,
-        }
-        data.append(item)
+    if request.is_ajax():
+        qs = Blog.objects.all().order_by("-created_at")
+        visible = 3
+        size = qs.count()
+        upper = num_posts
+        lower = upper - visible
+        data = []
+
+        for objects in qs:
+            item = {
+                "id": objects.id,
+                "title": objects.title,
+                "slug": objects.slug,
+                "liked": True if request.user in objects.liked.all() else False,
+                "like_count": objects.like_count,
+                "excerpt": objects.excerpt,
+                "detail": objects.detail,
+                "view_count": objects.view_count,
+            }
+            data.append(item)
     return JsonResponse({"data": data[lower:upper], "size": size})
 
 
@@ -79,12 +82,21 @@ def like_and_unlike_post(request):
 
 
 def create_new_post(request):
-    form = CreatePostForm
+    form = CreatePostForm(request.POST or None)
     # qs = Blog.objects.all()
 
     if request.is_ajax() and form.is_valid():
         instance = form.save(commit=False)
         instance.save()
+        return JsonResponse(
+            {
+                "title": instance.title,
+                "slug": instance.slug,
+                "id": instance.id,
+                "excerpt": instance.excerpt,
+                "like_count": instance.like_count,
+            }
+        )
     context = {
         "form": form,
     }
@@ -92,7 +104,7 @@ def create_new_post(request):
 
 
 def load_event(request, num_event):
-    qs = Event.objects.all()
+    qs = Event.objects.all().order_by("-created_at")
     visible = 2
     size = qs.count()
     upper = num_event
